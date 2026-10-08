@@ -63,5 +63,6 @@ try:
         print(f.read())
 except FileNotFoundError:
     print("目前还没有任何成绩记录。")
+    
 
 
