@@ -44,9 +44,16 @@ def load_messages():
     return [{"role": row[0], "content": row[1]} for row in rows]
 
 # ================= 2. 初始化客户端 =================
+try:
+    # 优先尝试从 Streamlit 云端 Secrets 中读取
+    api_key_val = st.secrets["DEEPSEEK_API_KEY"]
+except Exception:
+    # 如果本地没有配置 Secrets，就从 .env 文件读取
+    api_key_val = os.getenv("DEEPSEEK_API_KEY")
+
 client =OpenAI(
     # 👇 从环境变量中读取 key， 如果读取不到就报错提示
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
+    api_key=api_key_val,
     base_url="https://api.deepseek.com",
     timeout=60.0,
     max_retries=3,
